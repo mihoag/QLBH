@@ -1,0 +1,171 @@
+<main class="main-content border-radius-lg">
+    <div class="card mt-3">
+        <h1>Quản lí bán hàng _ 21120457 _ Lê Minh Hoàng</h1>
+        <button data-bs-toggle="modal" data-bs-target="#addCate" type="button" class="btn btn-primary mt-3 mx-3"
+            style="width: 15%;">Add category</button>
+        <form method="post" action="/changeColor" name="formDM">
+            <div class="form-check form-switch" id="darkModeSwitch-form">
+                <input class="form-check-input" type="checkbox" role="switch" {{changeSWDM}}>
+                <label class="form-check-label" for="darkModeSwitch"><i class="fa-regular {{changeIconDM}}"
+                        id="changeDM"></i></label>
+            </div>
+        </form>
+        <h6 class="text-capitalize ps-3 fs-5">List categories</h6>
+        <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID
+                                category</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Name category</th>
+                            <th class="text-secondary opacity-7"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each listcate}}
+                        <tr>
+                            <td>
+                                <div class="d-flex px-4 py-1">
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm">{{CatID}}</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0">{{CatName}}</p>
+
+                            </td>
+                            <td class="align-middle">
+                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                    data-toggle="tooltip" data-bs-toggle="modal" data-id="{{CatID}}"
+                                    data-name="{{CatName}}" data-bs-target="#updateCate"
+                                    data-original-title="Edit cate">
+                                    Edit
+                                </a>
+                                &nbsp;
+                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                    data-toggle="tooltip" data-bs-toggle="modal" data-id="{{CatID}}"
+                                    data-bs-target="#deletePersonModal" data-original-title="Delete cate">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="addCate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add new category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/" method="post">
+                <div class="modal-body">
+                    <div class="col-auto">
+                        <label class="visually-hidden">Name category</label>
+                        <input type="text" class="form-control" name="catName" placeholder="Enter category name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="addBtn" type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateCate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/update" method="post">
+                <div class="modal-body">
+                    <div class="col-auto">
+                        <input type="text" hidden name="catID" id="IDcate" value="">
+                        <label for="inputPassword2" class="visually-hidden">Name category</label>
+                        <input type="text" value="" id="nameCate" name="catName" placeholder="Update category name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="updateBtn" type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="deletePersonModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure to delete ???
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="deleteBtn" type="button" class="btn btn-primary">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form name="deleteForm" action="" method="post"></form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var idCate;
+        var form = document.forms['deleteForm'];
+        var buttonDelete = document.getElementById('deleteBtn');
+        var updateBtn = document.getElementById('updateBtn');
+        var IDcate = document.getElementById('IDcate');
+        var nameCate = document.getElementById('nameCate');
+        $('#deletePersonModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            idCate = button.data('id');
+            console.log(idCate)
+        })
+
+        $('#updateCate').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            idCate = button.data('id');
+            namecate = button.data('name');
+            IDcate.value = idCate;
+            nameCate.value = namecate;
+            //console.log(idCate)
+        })
+
+        buttonDelete.addEventListener("click", function () {
+            console.log(idCate);
+            form.action = "/delete?id=" + idCate;
+            form.submit();
+        })
+
+        var formDM = document.forms['formDM'];
+        $('#changeDM').click(function (event) {
+            //console.log(formDM);
+            formDM.submit();
+        })
+
+
+    }
+    )
+
+
+</script>

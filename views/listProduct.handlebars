@@ -1,0 +1,121 @@
+<main class="main-content border-radius-lg">
+    <div class="card mt-3">
+        <form action="/product" method="get">
+            <div class="d-flex mb-4 mt-4">
+                <select class="form-select form-select-sm " aria-label=".form-select-sm example"
+                    style="width: 200px; margin: 0 16px;" name="formSelect" required>
+                    <option value="all" selected>-All-</option>
+                    {{#each listCate}}
+                    <option value="{{CatID}}">{{CatName}}</option>
+                    {{/each}}
+                </select>
+                <button type="submit" class="btn btn-primary" id="implement">Filter</button>
+            </div>
+        </form>
+        <h6 class="text-capitalize ps-3 fs-5">List products</h6>
+        <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID
+                                product</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Name product</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Description</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Price</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Quantity</th>
+                            <th class="text-secondary opacity-7"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each listProduct}}
+                        <tr>
+                            <td>
+                                <div class="d-flex px-4 py-1">
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm">{{ProID}}</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0">{{ProName}}</p>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0">{{TinyDes}}</p>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0">{{Price}}</p>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0">{{Quantity}}</p>
+                            </td>
+                            <td class="align-middle">
+                                <a href="#" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                    data-bs-toggle="modal" data-id="{{ProID}}" data-fulldes="{{FullDes}}"
+                                    data-bs-target="#detailproduct" data-original-title="Edit cate">
+                                    detail
+                                </a>
+
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="detailproduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-10 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem;">
+                        <img id="imgDetail" src="" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Full description</h5>
+                            <p class="card-text" id="desDetail">Some quick example text to build on the card title and
+                                make up the
+                                bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var imgDetail = document.getElementById('imgDetail');
+        var desDetail = document.getElementById('desDetail');
+        $('#detailproduct').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            idP = button.data('id');
+            des = button.data('fulldes');
+            console.log(des);
+            imgDetail.src = `img/pid/${idP}/1.jpg`;
+            desDetail.innerHTML = des;
+            //console.log(idCate)
+        })
+
+
+    }
+    )
+
+
+
+</script>
